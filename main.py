@@ -3,8 +3,8 @@ import pandas as pd
 import smtplib
 from email.mime.text import MIMEText
 
-st.set_page_config(page_title="Promo Mailer - It delivers with 100/ gurantee", layout="centered")
-st.title("📧 Promo Mailer")
+st.set_page_config(page_title="Promo Mailer - One stop solution for your business promotion", layout="centered")
+st.markdown('<h1 style="text-align: center;">📧 Promo Mailer</h1>', unsafe_allow_html=True)
 
 uploaded_file = st.file_uploader("📎 Upload CSV (columns: name, email)", type=["csv"])
 
@@ -18,18 +18,18 @@ st.subheader("✉️ Compose Your Message")
 subject = st.text_input("Email Subject", value="🚀 Let's Build With Vassu Infotech")
 default_body = """Hi {name},
 
-We’re Vassu Infotech – helping businesses like yours with affordable and reliable technology services:
+We’re TestCompany -  helping businesses like yours with affordable and reliable technology services:
 
 - Custom Websites
 - Mobile Apps
 - CRM & ERP Solutions
 - Digital Marketing
 
-Visit us: https://vassuinfotech.com  
-Contact: vassu@infotech.com
+Visit us: https://testcompany.com  
+Contact: testcompany@test.com
 
 Regards,  
-Team Vassu Infotech"""
+Team TestCompany"""
 
 body_template = st.text_area("Email Body (use {name} to personalize)", value=default_body, height=250)
 
