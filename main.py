@@ -15,7 +15,7 @@ smtp_port = st.number_input("SMTP Port", value=465)
 
 # Email Message
 st.subheader("✉️ Compose Your Message")
-subject = st.text_input("Email Subject", value="🚀 Let's Build With Vassu Infotech")
+subject = st.text_input("Email Subject", value="🚀 Let's Build With TestCompany")
 default_body = """Hi {name},
 
 We’re TestCompany -  helping businesses like yours with affordable and reliable technology services:
