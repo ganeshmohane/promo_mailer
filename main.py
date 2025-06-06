@@ -2,11 +2,16 @@ import streamlit as st
 import pandas as pd
 import smtplib
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
 
 st.set_page_config(page_title="Promo Mailer - One stop solution for your business promotion", layout="centered")
 st.markdown('<h1 style="text-align: center;">📧 Promo Mailer</h1>', unsafe_allow_html=True)
 
 uploaded_file = st.file_uploader("📎 Upload CSV (columns: name, email)", type=["csv"])
+
+# Optional Attachment
+attachment_file = st.file_uploader("📎 Upload an Attachment (Max 5 MB)", type=None)
 
 sender_email = st.text_input("Your Email (e.g. youremail@email.com)", value="")
 sender_password = st.text_input("App Password", type="password")
@@ -35,12 +40,25 @@ body_template = st.text_area("Email Body (use {name} to personalize)", value=def
 
 confirm_word = st.text_input("Type 'CONFIRM' to send emails")
 
-# sending mail fn
+# Function to send email with optional attachment
 def send_email(to_email, name):
-    msg = MIMEText(body_template.format(name=name))
+    msg = MIMEMultipart()
     msg['Subject'] = subject
     msg['From'] = sender_email
     msg['To'] = to_email
+
+    # Add email body
+    body = MIMEText(body_template.format(name=name), 'plain')
+    msg.attach(body)
+
+    # Add attachment if provided
+    if attachment_file is not None:
+        if attachment_file.size <= 5 * 1024 * 1024:  # 5 MB limit
+            part = MIMEApplication(attachment_file.read(), Name=attachment_file.name)
+            part['Content-Disposition'] = f'attachment; filename="{attachment_file.name}"'
+            msg.attach(part)
+        else:
+            return False, "Attachment exceeds 5 MB limit."
 
     try:
         with smtplib.SMTP_SSL(smtp_server, smtp_port) as server:
